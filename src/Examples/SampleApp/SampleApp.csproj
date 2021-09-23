@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\PackSite.Library.Logging.Microsoft\PackSite.Library.Logging.Microsoft.csproj" />
     <ProjectReference Include="..\..\PackSite.Library.Logging.Serilog\PackSite.Library.Logging.Serilog.csproj" />
   </ItemGroup>
 

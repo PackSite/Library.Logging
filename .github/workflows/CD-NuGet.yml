@@ -25,4 +25,7 @@ jobs:
         dotnet pack src/PackSite.Library.Logging.sln --configuration Release
 
     - name: Deploy
-      run: dotnet nuget push src/PackSite.Library.Logging.Serilog/bin/Release/*.nupkg -s nuget.org -k ${{ secrets.NUGET_TOKEN }}
+      run: |
+        dotnet nuget push src/PackSite.Library.Logging.Abstractions/bin/Release/*.nupkg -s nuget.org -k ${{ secrets.NUGET_TOKEN }}
+        dotnet nuget push src/PackSite.Library.Logging.Serilog/bin/Release/*.nupkg -s nuget.org -k ${{ secrets.NUGET_TOKEN }}
+        dotnet nuget push src/PackSite.Library.Logging.Microsoft/bin/Release/*.nupkg -s nuget.org -k ${{ secrets.NUGET_TOKEN }}

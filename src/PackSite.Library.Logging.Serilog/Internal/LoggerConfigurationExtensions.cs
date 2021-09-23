@@ -3,7 +3,6 @@
     using System;
     using System.Diagnostics;
     using System.Linq;
-    using System.Reflection;
     using global::Serilog;
     using global::Serilog.Events;
     using global::Serilog.Exceptions;
@@ -20,11 +19,9 @@
         /// </summary>
         /// <param name="loggerConfiguration"></param>
         /// <param name="configuration"></param>
-        /// <param name="appName"></param>
-        /// <param name="environmentName"></param>
-        public static void ConfigureSerilogCommons(this LoggerConfiguration loggerConfiguration, IConfiguration configuration, string appName, string environmentName)
+        public static void ConfigureSerilogCommons(this LoggerConfiguration loggerConfiguration, IConfiguration configuration)
         {
-            if (!configuration.GetSection("Serilog").GetChildren().Any())
+            if (configuration.GetSection("Serilog")?.GetChildren().Any() is null or false)
             {
                 loggerConfiguration
                     .MinimumLevel.Verbose()
@@ -33,7 +30,7 @@
                     .WriteTo.File($"logs\\fallback-log-.log", buffered: true, flushToDiskInterval: TimeSpan.FromSeconds(1), rollingInterval: RollingInterval.Day)
                     .Enrich.FromLogContext();
 
-                const string message = "Application configuration does not contain \"Serilog\" section. Fallback configuration will be used.";
+                const string message = "Application configuration does not contain \"Serilog\" section. Fallback configuration is used.";
 
                 Debug.WriteLine(message);
                 Trace.WriteLine(message);
@@ -50,9 +47,6 @@
             }
 
             loggerConfiguration
-                .Enrich.WithProperty("App", appName)
-                .Enrich.WithProperty("Env", environmentName)
-                .Enrich.WithProperty("Ver", Assembly.GetEntryAssembly()?.GetName().Version ?? new Version(1, 0, 0, 0))
                 .Enrich.FromLogContext()
                 .Enrich.WithExceptionDetails();
         }

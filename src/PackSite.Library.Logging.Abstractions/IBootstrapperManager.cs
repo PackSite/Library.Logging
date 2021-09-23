@@ -6,24 +6,24 @@
     using Microsoft.Extensions.Hosting;
 
     /// <summary>
-    /// Represents a bootstraper manager.
+    /// Represents a bootstrapper manager.
     /// </summary>
-    public interface IBootstraperManager<TBootstraper>
-        where TBootstraper : class, IBootstraper
+    public interface IBootstrapperManager<TBootstrapper>
+        where TBootstrapper : class, IBootstrapper
     {
         /// <summary>
-        /// Configures bootstraper options.
+        /// Configures bootstrapper options.
         /// </summary>
         /// <param name="options"></param>
         /// <returns></returns>
-        IBootstraperManager<TBootstraper> ConfigureOptions(Action<IConfigureBootstraperOptions> options);
+        IBootstrapperManager<TBootstrapper> ConfigureOptions(Action<IConfigureBootstrapperOptions> options);
 
         /// <summary>
         /// Sets a delegate that creates and configures host builder. Subsequent calls are not chained.
         /// </summary>
         /// <param name="createHostBuilder"></param>
         /// <returns></returns>
-        IBootstraperManager<TBootstraper> CreateHostBuilder(Func<BootstraperOptions, IHostBuilder> createHostBuilder);
+        IBootstrapperManager<TBootstrapper> CreateHostBuilder(Func<BootstrapperOptions, IHostBuilder> createHostBuilder);
 
         /// <summary>
         /// Builds and runs host inside try-catch-finally with logging.

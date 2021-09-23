@@ -93,7 +93,7 @@
                 IConfiguration configuration = context.Configuration;
                 IHostEnvironment environment = context.HostingEnvironment;
 
-                loggerConfiguration.ConfigureSerilogCommons(configuration, environment.ApplicationName, environment.EnvironmentName);
+                loggerConfiguration.ConfigureSerilogCommons(configuration);
                 configureLogger(context, services, loggerConfiguration);
             }, false, false);
 

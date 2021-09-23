@@ -3,9 +3,9 @@
     using Microsoft.Extensions.Configuration;
 
     /// <summary>
-    /// Bootstraper configuration helper.
+    /// Bootstrapper configuration helper.
     /// </summary>
-    public static class BootstraperConfigurationHelper
+    public static class BootstrapperConfigurationHelper
     {
         /// <summary>
         /// Build and gets <see cref="IConfigurationRoot"/> that can be used to configure logger for startup purposes.
@@ -14,9 +14,9 @@
         /// and environment variables.
         /// </summary>
         /// <returns></returns>
-        public static IConfigurationRoot GetConfigurationRoot(BootstraperOptions options)
+        public static IConfigurationRoot GetConfigurationRoot(BootstrapperOptions options)
         {
-            return GetConfigurationRoot(options.EnvironmentName, options.BaseDirectory, options.AdditionalFiles);
+            return GetConfigurationRoot(options.EnvironmentName, options.BaseDirectory, options.AdditionalLoggingConfigurationFiles);
         }
 
         private static IConfigurationRoot GetConfigurationRoot(string environmentName, string baseFolderPath, string[] additionalFiles)

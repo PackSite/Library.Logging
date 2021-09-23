@@ -39,7 +39,7 @@ jobs:
     - name: Build & test
       run: |
         dotnet nuget update source PackSite --configfile ./src/NuGet.config -u ${{ secrets.GPR_OWNER }} -p ${{secrets.GPR_TOKEN }} --store-password-in-clear-text
-        dotnet test ./src/PackSite.Library.Mapping.sln --configuration Release
+        dotnet test ./src/PackSite.Library.Logging.sln --configuration Release
 
     - name: Upload coverage
       uses: codecov/codecov-action@v1.0.14

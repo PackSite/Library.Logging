@@ -27,4 +27,7 @@ jobs:
         dotnet pack src/PackSite.Library.Logging.sln --configuration Release
 
     - name: Deploy to GitHub Package Registry
-      run: dotnet nuget push src/PackSite.Library.Logging.Serilog/bin/Release/*.nupkg -k ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        dotnet nuget push src/PackSite.Library.Logging.Abstractions/bin/Release/*.nupkg -k ${{ secrets.GITHUB_TOKEN }}
+        dotnet nuget push src/PackSite.Library.Logging.Serilog/bin/Release/*.nupkg -k ${{ secrets.GITHUB_TOKEN }}
+        dotnet nuget push src/PackSite.Library.Logging.Microsoft/bin/Release/*.nupkg -k ${{ secrets.GITHUB_TOKEN }}

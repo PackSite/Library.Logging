@@ -1,6 +1,5 @@
 namespace PackSite.Library.Logging.Serilog
 {
-    using System.Reflection;
     using global::Serilog;
     using global::Serilog.Extensions.Hosting;
     using Microsoft.Extensions.Configuration;
@@ -9,19 +8,19 @@ namespace PackSite.Library.Logging.Serilog
     using PackSite.Library.Logging.Serilog.Internal;
 
     /// <summary>
-    /// Convenience helper for application bootstraping with logging in case of fatal error.
+    /// Application bootstraping using Serilog-based logging in case of fatal error.
     /// </summary>
-    public sealed class SerilogBootstraper : IBootstraper
+    public sealed class SerilogBootstrapper : IBootstrapper
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="SerilogBootstraper"/>.
+        /// Initializes a new instance of <see cref="SerilogBootstrapper"/>.
         /// </summary>
-        public SerilogBootstraper()
+        public SerilogBootstrapper()
         {
 
         }
 
-        void IBootstraper.BeforeHostCreation(BootstraperOptions options)
+        void IBootstrapper.BeforeHostCreation(BootstrapperOptions options)
         {
             /*
              * Initializes bootstrap Serilog logger for startup purposes.
@@ -30,37 +29,37 @@ namespace PackSite.Library.Logging.Serilog
              * and environment variables.
              */
 
-            IConfigurationRoot configurationRoot = BootstraperConfigurationHelper.GetConfigurationRoot(options);
+            IConfigurationRoot configurationRoot = BootstrapperConfigurationHelper.GetConfigurationRoot(options);
 
             LoggerConfiguration loggerConfiguration = new();
-            loggerConfiguration.ConfigureSerilogCommons(configurationRoot, Assembly.GetEntryAssembly()?.GetName().Name ?? "Bootstrap", options.EnvironmentName);
+            loggerConfiguration.ConfigureSerilogCommons(configurationRoot);
             loggerConfiguration.MinimumLevel.Verbose(); // Log everything before logger reconfiguration by Host (unless namespace log level is overriden in appsettings.json etc.).
 
             ReloadableLogger logger = loggerConfiguration.CreateBootstrapLogger();
             Log.Logger = logger;
         }
 
-        void IBootstraper.BeforeHostBuild(IHostBuilder hostBuilder, BootstraperOptions options)
+        void IBootstrapper.BeforeHostBuild(IHostBuilder hostBuilder, BootstrapperOptions options)
         {
 
         }
 
-        void IBootstraper.AfterHostBuild(BootstraperOptions options)
+        void IBootstrapper.AfterHostBuild(BootstrapperOptions options)
         {
 
         }
 
-        void IBootstraper.BeforeHostDisposal()
+        void IBootstrapper.BeforeHostDisposal(BootstrapperOptions options)
         {
             Log.CloseAndFlush();
         }
 
-        void IBootstraper.AfterHostDisposal()
+        void IBootstrapper.AfterHostDisposal(BootstrapperOptions options)
         {
 
         }
 
-        Microsoft.Extensions.Logging.ILoggerFactory? IBootstraper.TryGetBootstrapLoggerFactory(BootstraperOptions options)
+        Microsoft.Extensions.Logging.ILoggerFactory? IBootstrapper.TryGetBootstrapLoggerFactory(BootstrapperOptions options)
         {
             return SerilogStaticLoggerHelper.CreateLoggerFactory();
         }

@@ -7,8 +7,7 @@
     /// <summary>
     /// Represents a bootstrapper manager.
     /// </summary>
-    public interface IBootstrapperManager<TBootstrapper>
-        where TBootstrapper : class, IBootstrapper
+    public interface IBootstrapperManager
     {
         /// <summary>
         /// Bootstrapper options.
@@ -49,5 +48,14 @@
         /// Returns a Task that only completes when the token is triggered or shutdown is triggered.
         /// </summary>
         Task StopAsync(CancellationToken token = default);
+    }
+
+    /// <summary>
+    /// Represents a bootstrapper manager.
+    /// </summary>
+    public interface IBootstrapperManager<TBootstrapper> : IBootstrapperManager
+        where TBootstrapper : class, IBootstrapper
+    {
+
     }
 }

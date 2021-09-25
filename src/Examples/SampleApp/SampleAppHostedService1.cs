@@ -10,30 +10,28 @@
     using Microsoft.Extensions.Logging;
     using Newtonsoft.Json;
 
-    public sealed class SampleAppHostedService : BackgroundService
+    public sealed class SampleAppHostedService1 : BackgroundService
     {
         private readonly ILogger _logger;
         private readonly IConfiguration _configuration;
 
-        public SampleAppHostedService(ILogger<SampleAppHostedService> logger, IConfiguration configuration)
+        public SampleAppHostedService1(ILogger<SampleAppHostedService2> logger, IConfiguration configuration)
         {
             _logger = logger;
             _configuration = configuration;
         }
 
         /// <inheritdoc/>
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _logger.LogInformation($"Starting SampleApp");
+            await Task.Delay(1000);
+
+            _logger.LogInformation($"Running SampleApp");
 
             IReadOnlyDictionary<string, string> values = _configuration.AsEnumerable().ToDictionary(x => x.Key, x => x.Value);
             string json = JsonConvert.SerializeObject(values, Formatting.Indented);
 
             Console.WriteLine(json);
-
-            throw new NotImplementedException();
-
-            return Task.CompletedTask;
         }
     }
 }

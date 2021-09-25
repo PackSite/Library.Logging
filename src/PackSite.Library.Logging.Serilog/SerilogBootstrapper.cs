@@ -44,19 +44,9 @@ namespace PackSite.Library.Logging.Serilog
 
         }
 
-        void IBootstrapper.AfterHostBuild(BootstrapperOptions options)
-        {
-
-        }
-
-        void IBootstrapper.BeforeHostDisposal(BootstrapperOptions options)
-        {
-            Log.CloseAndFlush();
-        }
-
         void IBootstrapper.AfterHostDisposal(BootstrapperOptions options)
         {
-
+            Log.CloseAndFlush();
         }
 
         Microsoft.Extensions.Logging.ILoggerFactory? IBootstrapper.TryGetBootstrapLoggerFactory(BootstrapperOptions options)

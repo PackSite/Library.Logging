@@ -83,16 +83,6 @@ namespace PackSite.Library.Logging.Microsoft
 
         }
 
-        void IBootstrapper.AfterHostBuild(BootstrapperOptions options)
-        {
-
-        }
-
-        void IBootstrapper.BeforeHostDisposal(BootstrapperOptions options)
-        {
-
-        }
-
         void IBootstrapper.AfterHostDisposal(BootstrapperOptions options)
         {
             if (options.Properties.TryGetValue(BootstrapperServiceProviderKey, out object? value) &&

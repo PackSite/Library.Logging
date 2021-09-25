@@ -1,6 +1,5 @@
 ﻿namespace SampleApp
 {
-    using System;
     using System.Threading.Tasks;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -12,13 +11,18 @@
     {
         public static async Task Main()
         {
-            await BootstrapperManager.Create<SerilogBootstrapper>()
+            await BootstrapperManagerBuilder.Create<SerilogBootstrapper>()
                 .CreateHostBuilder(CreateHostBuilderSerilog)
-                .StartAsync();
+                .Build()
+                .RunAsync();
 
-            await BootstrapperManager.Create<MicrosoftBootstrapper>()
+            var bootstrapperManagerMicrosoft = BootstrapperManagerBuilder.Create<MicrosoftBootstrapper>()
                 .CreateHostBuilder(CreateHostBuilderMicrosoft)
-                .StartAsync();
+                .Build();
+
+            await bootstrapperManagerMicrosoft.StartAsync();
+            await bootstrapperManagerMicrosoft.WaitForShutdownAsync();
+            //await bootstrapperManagerMicrosoft.StopAsync();
         }
 
         private static IHostBuilder CreateHostBuilderSerilog(BootstrapperOptions bootstrapperOptions)
@@ -29,7 +33,8 @@
                 .ConfigureServices((context, services) =>
                 {
                     services.AddOptions();
-                    throw new NotImplementedException();
+                    services.AddHostedService<SampleAppHostedService2>();
+                    services.AddHostedService<SampleAppHostedService1>();
                 })
                 .UseLogging();
         }
@@ -42,7 +47,8 @@
                 .ConfigureServices((context, services) =>
                 {
                     services.AddOptions();
-                    services.AddHostedService<SampleAppHostedService>();
+                    services.AddHostedService<SampleAppHostedService2>();
+                    services.AddHostedService<SampleAppHostedService1>();
                 })
                 .UseLogging();
         }

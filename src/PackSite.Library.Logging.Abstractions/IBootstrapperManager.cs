@@ -1,6 +1,5 @@
 ﻿namespace PackSite.Library.Logging
 {
-    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Extensions.Hosting;
@@ -12,24 +11,43 @@
         where TBootstrapper : class, IBootstrapper
     {
         /// <summary>
-        /// Configures bootstrapper options.
+        /// Bootstrapper options.
         /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        IBootstrapperManager<TBootstrapper> ConfigureOptions(Action<IConfigureBootstrapperOptions> options);
+        BootstrapperOptions Options { get; }
 
         /// <summary>
-        /// Sets a delegate that creates and configures host builder. Subsequent calls are not chained.
+        /// Host instance or null when failed to build.
         /// </summary>
-        /// <param name="createHostBuilder"></param>
-        /// <returns></returns>
-        IBootstrapperManager<TBootstrapper> CreateHostBuilder(Func<BootstrapperOptions, IHostBuilder> createHostBuilder);
+        IHost? Host { get; }
 
         /// <summary>
-        /// Builds and runs host inside try-catch-finally with logging.
+        /// Whether host is running.
+        /// </summary>
+        bool IsRunning { get; }
+
+        /// <summary>
+        /// Attempts to runs host inside try-catch-finally with logging.
         /// Returns a Task that only completes when the token is triggered or shutdown is triggered.
         /// </summary>
-        /// <exception cref="InvalidOperationException">Throws when no host builder factory was set.</exception>
+        /// <param name="token">The token to trigger shutdown.</param>
+        Task RunAsync(CancellationToken token = default);
+
+        /// <summary>
+        /// Attempts to starts the host inside try-catch-finally with logging.
+        /// Returns a Task that only completes when the token is triggered or shutdown is triggered.
+        /// </summary>
         Task StartAsync(CancellationToken token = default);
+
+        /// <summary>
+        /// Waits for host shutdown inside try-catch-finally with logging.
+        /// Returns a Task that only completes when the token is triggered or shutdown is triggered.
+        /// </summary>
+        Task WaitForShutdownAsync(CancellationToken token = default);
+
+        /// <summary>
+        /// Attempts to stops the host inside try-catch-finally with logging.
+        /// Returns a Task that only completes when the token is triggered or shutdown is triggered.
+        /// </summary>
+        Task StopAsync(CancellationToken token = default);
     }
 }

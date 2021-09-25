@@ -24,20 +24,6 @@
         void BeforeHostBuild(IHostBuilder hostBuilder, BootstrapperOptions options);
 
         /// <summary>
-        /// Executed after building host.
-        /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        void AfterHostBuild(BootstrapperOptions options);
-
-        /// <summary>
-        /// Executed before host disposal.
-        /// </summary>
-        /// <param name="options"></param>
-        /// <returns></returns>
-        void BeforeHostDisposal(BootstrapperOptions options);
-
-        /// <summary>
         /// Executed after host disposal.
         /// </summary>
         /// <param name="options"></param>

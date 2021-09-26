@@ -14,7 +14,7 @@ namespace PackSite.Library.Logging.Microsoft
     /// </summary>
     public sealed class MicrosoftBootstrapper : IBootstrapper
     {
-        private const string BootstrapperServiceProviderKey = "PackSite.Library.Logging.MicrosoftBootstrapper.IServiceProvider";
+        private const string BootstrapperServiceProviderKey = "PackSite.Library.Logging.Microsoft.MicrosoftBootstrapper.ServiceProvider";
 
         /// <summary>
         /// Initializes a new instance of <see cref="MicrosoftBootstrapper"/>.
@@ -24,7 +24,7 @@ namespace PackSite.Library.Logging.Microsoft
 
         }
 
-        void IBootstrapper.BeforeHostCreation(BootstrapperOptions options)
+        void IBootstrapper.BeforeHostCreation(BootstrapperOptions options, IConfigurationRoot bootstrapperConfigurationRoot)
         {
             /*
              * Initializes bootstrap MEL logger for startup purposes.
@@ -33,8 +33,6 @@ namespace PackSite.Library.Logging.Microsoft
              * and environment variables.
              */
 
-            IConfigurationRoot configurationRoot = BootstrapperConfigurationHelper.GetConfigurationRoot(options);
-
             ServiceProvider serviceProvider = new ServiceCollection()
                 .AddOptions()
                 .AddLogging(logging =>
@@ -42,7 +40,7 @@ namespace PackSite.Library.Logging.Microsoft
                     // Log everything before logger reconfiguration by Host (unless namespace log level is overriden in appsettings.json etc.).
                     logging.AddFilter(level => level >= LogLevel.Trace);
 
-                    var section = configurationRoot.GetSection("Logging");
+                    var section = bootstrapperConfigurationRoot.GetSection("Logging");
                     if (section?.GetChildren().Any() is true)
                     {
                         logging.AddConfiguration(section);
@@ -78,7 +76,7 @@ namespace PackSite.Library.Logging.Microsoft
             options.Properties[BootstrapperServiceProviderKey] = serviceProvider;
         }
 
-        void IBootstrapper.BeforeHostBuild(IHostBuilder hostBuilder, BootstrapperOptions options)
+        void IBootstrapper.BeforeHostBuild(IHostBuilder hostBuilder, BootstrapperOptions options, IConfigurationRoot bootstrapperConfigurationRoot)
         {
 
         }

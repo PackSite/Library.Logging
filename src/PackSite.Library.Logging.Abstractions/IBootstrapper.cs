@@ -1,5 +1,6 @@
 ﻿namespace PackSite.Library.Logging
 {
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
 
@@ -12,16 +13,18 @@
         /// Executed before instance host creation.
         /// </summary>
         /// <param name="options"></param>
+        /// <param name="bootstrapperConfigurationRoot"></param>
         /// <returns></returns>
-        void BeforeHostCreation(BootstrapperOptions options);
+        void BeforeHostCreation(BootstrapperOptions options, IConfigurationRoot bootstrapperConfigurationRoot);
 
         /// <summary>
         /// Executed before instance host creation.
         /// </summary>
         /// <param name="hostBuilder"></param>
         /// <param name="options"></param>
+        /// <param name="bootstrapperConfigurationRoot"></param>
         /// <returns></returns>
-        void BeforeHostBuild(IHostBuilder hostBuilder, BootstrapperOptions options);
+        void BeforeHostBuild(IHostBuilder hostBuilder, BootstrapperOptions options, IConfigurationRoot bootstrapperConfigurationRoot);
 
         /// <summary>
         /// Executed after host disposal.

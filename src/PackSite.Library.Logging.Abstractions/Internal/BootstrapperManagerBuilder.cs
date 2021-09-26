@@ -1,8 +1,9 @@
-﻿namespace PackSite.Library.Logging
+﻿namespace PackSite.Library.Logging.Internal
 {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
 
@@ -19,7 +20,7 @@
         private string[]? _args;
         private string? _baseDirectory;
         private string? _environmentName;
-        private string[]? _additionalFiles;
+        private readonly List<string> _additionalFiles = new();
         private readonly List<Action<IHostBuilder>> _preBuild = new();
         private Func<BootstrapperOptions, IHostBuilder>? _createHostBuilderDelegate;
 
@@ -62,27 +63,43 @@
             return this;
         }
 
+        IConfigureBootstrapperOptions IConfigureBootstrapperOptions.UseDefaultBaseDirectory()
+        {
+            _baseDirectory = null;
+            return this;
+        }
+
         IConfigureBootstrapperOptions IConfigureBootstrapperOptions.UseBaseDirectory(string baseDirectory)
         {
-            _baseDirectory = baseDirectory ?? throw new ArgumentNullException(nameof(baseDirectory));
+            if (string.IsNullOrWhiteSpace(baseDirectory))
+            {
+                throw new ArgumentException($"'{nameof(baseDirectory)}' cannot be null or whitespace.", nameof(baseDirectory));
+            }
+
+            _baseDirectory = baseDirectory;
             return this;
         }
 
         IConfigureBootstrapperOptions IConfigureBootstrapperOptions.UseDefaultEnvironmentName()
         {
-            _environmentName = BootstrapperManagerBuilder.DefaultEnvironmentName;
+            _environmentName = null;
             return this;
         }
 
         IConfigureBootstrapperOptions IConfigureBootstrapperOptions.UseEnvironmentName(string environmentName)
         {
-            _environmentName = environmentName ?? throw new ArgumentNullException(nameof(environmentName));
+            if (string.IsNullOrWhiteSpace(environmentName))
+            {
+                throw new ArgumentException($"'{nameof(environmentName)}' cannot be null or whitespace.", nameof(environmentName));
+            }
+
+            _environmentName = environmentName;
             return this;
         }
 
-        IConfigureBootstrapperOptions IConfigureBootstrapperOptions.UseAdditionalLoggingConfigurationFiles(string[] additionalFiles)
+        IConfigureBootstrapperOptions IConfigureBootstrapperOptions.UseAdditionalBootstrapperConfigurationFiles(params string[] additionalFiles)
         {
-            _additionalFiles = additionalFiles ?? throw new ArgumentNullException(nameof(additionalFiles));
+            _additionalFiles.AddRange(additionalFiles ?? throw new ArgumentNullException(nameof(additionalFiles)));
             return this;
         }
 
@@ -104,10 +121,12 @@
             BootstrapperOptions options = new(_args,
                                              _baseDirectory,
                                              _environmentName,
-                                             _additionalFiles,
+                                             _additionalFiles.ToArray(),
                                              new Dictionary<object, object>(Properties));
 
-            _instance.BeforeHostCreation(options);
+            IConfigurationRoot configurationRoot = BootstrapperConfigurationHelper.GetConfigurationRoot(options);
+
+            _instance.BeforeHostCreation(options, configurationRoot);
 
             ILogger? logger = null;
             IHost? host = null;
@@ -125,7 +144,7 @@
                     action(hostBuilder);
                 }
 
-                _instance.BeforeHostBuild(hostBuilder, options);
+                _instance.BeforeHostBuild(hostBuilder, options, configurationRoot);
                 host = hostBuilder.Build();
 
                 logger = _instance.TryGetBootstrapLoggerFactory(options)?.CreateLogger(LoggerCategoryName);

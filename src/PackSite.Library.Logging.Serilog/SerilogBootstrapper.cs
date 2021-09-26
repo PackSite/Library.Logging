@@ -20,7 +20,7 @@ namespace PackSite.Library.Logging.Serilog
 
         }
 
-        void IBootstrapper.BeforeHostCreation(BootstrapperOptions options)
+        void IBootstrapper.BeforeHostCreation(BootstrapperOptions options, IConfigurationRoot bootstrapperConfigurationRoot)
         {
             /*
              * Initializes bootstrap Serilog logger for startup purposes.
@@ -29,17 +29,15 @@ namespace PackSite.Library.Logging.Serilog
              * and environment variables.
              */
 
-            IConfigurationRoot configurationRoot = BootstrapperConfigurationHelper.GetConfigurationRoot(options);
-
             LoggerConfiguration loggerConfiguration = new();
-            loggerConfiguration.ConfigureSerilogCommons(configurationRoot);
+            loggerConfiguration.ConfigureSerilogCommons(bootstrapperConfigurationRoot);
             loggerConfiguration.MinimumLevel.Verbose(); // Log everything before logger reconfiguration by Host (unless namespace log level is overriden in appsettings.json etc.).
 
             ReloadableLogger logger = loggerConfiguration.CreateBootstrapLogger();
             Log.Logger = logger;
         }
 
-        void IBootstrapper.BeforeHostBuild(IHostBuilder hostBuilder, BootstrapperOptions options)
+        void IBootstrapper.BeforeHostBuild(IHostBuilder hostBuilder, BootstrapperOptions options, IConfigurationRoot bootstrapperConfigurationRoot)
         {
 
         }

@@ -2,6 +2,7 @@
 {
     using System;
     using Microsoft.Extensions.Hosting;
+    using PackSite.Library.Logging.Internal;
 
     /// <summary>
     /// Bootstrapper manager builder helpers.

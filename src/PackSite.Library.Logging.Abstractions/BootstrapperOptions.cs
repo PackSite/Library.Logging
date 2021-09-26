@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// <see cref="IBootstrapper"/> options.
@@ -37,9 +38,10 @@
         public string EnvironmentName { get; }
 
         /// <summary>
-        /// Additional logging configuration files, e.g. appsettings-logging.Development.json (default: empty array).
+        /// Additional bootstrapper configuration files, e.g. appsettings-logging.Development.json
+        /// used to retrive <see cref="IConfigurationRoot"/> instance (default: empty array).
         /// </summary>
-        public string[] AdditionalLoggingConfigurationFiles { get; }
+        public string[] AdditionalBootstrapperConfigurationFiles { get; }
 
         /// <summary>
         /// A central location for sharing state during bootstrap.
@@ -63,7 +65,7 @@
             Args = args ?? Environment.GetCommandLineArgs().Skip(1).ToArray();
             BaseDirectory = baseDirectory ?? Directory.GetCurrentDirectory();
             EnvironmentName = environmentName ?? BootstrapperManagerBuilder.DefaultEnvironmentName;
-            AdditionalLoggingConfigurationFiles = additionalLoggingConfigurationFiles ?? Array.Empty<string>();
+            AdditionalBootstrapperConfigurationFiles = additionalLoggingConfigurationFiles ?? Array.Empty<string>();
             Properties = properties ?? new Dictionary<object, object>();
         }
     }

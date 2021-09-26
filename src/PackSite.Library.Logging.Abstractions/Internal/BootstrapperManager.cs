@@ -1,4 +1,4 @@
-﻿namespace PackSite.Library.Logging
+﻿namespace PackSite.Library.Logging.Internal
 {
     using System;
     using System.Diagnostics;

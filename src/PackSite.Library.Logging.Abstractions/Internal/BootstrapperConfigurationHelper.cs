@@ -1,11 +1,11 @@
-﻿namespace PackSite.Library.Logging
+﻿namespace PackSite.Library.Logging.Internal
 {
     using Microsoft.Extensions.Configuration;
 
     /// <summary>
     /// Bootstrapper configuration helper.
     /// </summary>
-    public static class BootstrapperConfigurationHelper
+    internal static class BootstrapperConfigurationHelper
     {
         /// <summary>
         /// Build and gets <see cref="IConfigurationRoot"/> that can be used to configure logger for startup purposes.
@@ -16,7 +16,7 @@
         /// <returns></returns>
         public static IConfigurationRoot GetConfigurationRoot(BootstrapperOptions options)
         {
-            return GetConfigurationRoot(options.EnvironmentName, options.BaseDirectory, options.AdditionalLoggingConfigurationFiles);
+            return GetConfigurationRoot(options.EnvironmentName, options.BaseDirectory, options.AdditionalBootstrapperConfigurationFiles);
         }
 
         private static IConfigurationRoot GetConfigurationRoot(string environmentName, string baseFolderPath, string[] additionalFiles)

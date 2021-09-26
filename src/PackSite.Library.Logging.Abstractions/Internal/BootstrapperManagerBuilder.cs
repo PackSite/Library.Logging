@@ -3,8 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.IO;
-    using System.Linq;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
 
@@ -101,11 +99,6 @@
         /// <inheritdoc/>
         public IBootstrapperManager<TBootstrapper> Build()
         {
-            // Set default when missing
-            _args ??= Environment.GetCommandLineArgs().Skip(1).ToArray();
-            _baseDirectory ??= Directory.GetCurrentDirectory();
-            _environmentName ??= BootstrapperManagerBuilder.DefaultEnvironmentName;
-            _additionalFiles ??= Array.Empty<string>();
             _ = _createHostBuilderDelegate ?? throw new InvalidOperationException($"Cannot start host when {nameof(CreateHostBuilder)} was not called.");
 
             BootstrapperOptions options = new(_args,

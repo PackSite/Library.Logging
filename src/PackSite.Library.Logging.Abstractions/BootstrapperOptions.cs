@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -53,13 +54,17 @@
         /// <param name="environmentName"></param>
         /// <param name="additionalLoggingConfigurationFiles"></param>
         /// <param name="properties"></param>
-        public BootstrapperOptions(string[] args, string baseDirectory, string environmentName, string[] additionalLoggingConfigurationFiles, IDictionary<object, object> properties)
+        public BootstrapperOptions(string[]? args = null,
+                                   string? baseDirectory = null,
+                                   string? environmentName = null,
+                                   string[]? additionalLoggingConfigurationFiles = null,
+                                   IDictionary<object, object>? properties = null)
         {
-            Args = args ?? throw new ArgumentNullException(nameof(args));
-            BaseDirectory = baseDirectory ?? throw new ArgumentNullException(nameof(baseDirectory));
-            EnvironmentName = environmentName ?? throw new ArgumentNullException(nameof(environmentName));
-            AdditionalLoggingConfigurationFiles = additionalLoggingConfigurationFiles ?? throw new ArgumentNullException(nameof(additionalLoggingConfigurationFiles));
-            Properties = properties;
+            Args = args ?? Environment.GetCommandLineArgs().Skip(1).ToArray();
+            BaseDirectory = baseDirectory ?? Directory.GetCurrentDirectory();
+            EnvironmentName = environmentName ?? BootstrapperManagerBuilder.DefaultEnvironmentName;
+            AdditionalLoggingConfigurationFiles = additionalLoggingConfigurationFiles ?? Array.Empty<string>();
+            Properties = properties ?? new Dictionary<object, object>();
         }
     }
 }

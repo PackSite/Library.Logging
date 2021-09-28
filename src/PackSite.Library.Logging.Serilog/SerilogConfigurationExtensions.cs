@@ -40,11 +40,7 @@
         /// <summary>
         /// Adds Serilog logging to appliation with logger options from app configuration.
         /// Additionally, the following enrichers are always set:
-        /// "App" property with appliaction name,
-        /// "Env" property with environment name,
-        /// "Ver" property with entry assembly version,
-        /// "FromLogContext", and
-        /// "WithExceptionDetails".
+        /// "FromLogContext".
         ///
         /// Optional enrichers:
         /// "WithMemoryUsage",
@@ -59,19 +55,15 @@
         /// <param name="builder"></param>
         /// <param name="configureLogger"></param>
         /// <returns></returns>
-        public static IHostBuilder UseLogging(this IHostBuilder builder, Action<HostBuilderContext, LoggerConfiguration> configureLogger)
+        public static IHostBuilder UseLogging(this IHostBuilder builder, Action<HostBuilderContext, LoggerConfiguration> configureLogger, string configurationSectionName = "Serilog")
         {
-            return builder.UseLogging((context, services, loggerConfiguration) => configureLogger(context, loggerConfiguration));
+            return builder.UseLogging((context, services, loggerConfiguration) => configureLogger(context, loggerConfiguration), configurationSectionName);
         }
 
         /// <summary>
         /// Adds Serilog logging to appliation with logger options from app configuration.
         /// Additionally, the following enrichers are always set:
-        /// "App" property with appliaction name,
-        /// "Env" property with environment name,
-        /// "Ver" property with entry assembly version,
-        /// "FromLogContext", and
-        /// "WithExceptionDetails".
+        /// "FromLogContext".
         ///
         /// Optional enrichers:
         /// "WithMemoryUsage",
@@ -85,15 +77,16 @@
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configureLogger"></param>
+        /// <param name="configurationSectionName"></param>
         /// <returns></returns>
-        public static IHostBuilder UseLogging(this IHostBuilder builder, Action<HostBuilderContext, IServiceProvider, LoggerConfiguration> configureLogger)
+        public static IHostBuilder UseLogging(this IHostBuilder builder, Action<HostBuilderContext, IServiceProvider, LoggerConfiguration> configureLogger, string configurationSectionName = "Serilog")
         {
             builder.UseSerilog((context, services, loggerConfiguration) =>
             {
                 IConfiguration configuration = context.Configuration;
                 IHostEnvironment environment = context.HostingEnvironment;
 
-                loggerConfiguration.ConfigureSerilogCommons(configuration);
+                loggerConfiguration.ConfigureSerilogCommons(configuration, configurationSectionName);
                 configureLogger(context, services, loggerConfiguration);
             }, false, false);
 

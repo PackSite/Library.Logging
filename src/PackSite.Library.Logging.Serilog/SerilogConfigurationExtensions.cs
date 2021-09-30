@@ -31,10 +31,11 @@
         /// "WithEnvironmentName",
         /// </summary>
         /// <param name="builder"></param>
+        /// <param name="configurationSectionName"></param>
         /// <returns></returns>
-        public static IHostBuilder UseLogging(this IHostBuilder builder)
+        public static IHostBuilder UseLogging(this IHostBuilder builder, string configurationSectionName = "Serilog")
         {
-            return builder.UseLogging((context, services, loggerConfiguration) => { });
+            return builder.UseLogging((context, services, loggerConfiguration) => { }, configurationSectionName);
         }
 
         /// <summary>
@@ -54,6 +55,7 @@
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="configureLogger"></param>
+        /// <param name="configurationSectionName"></param>
         /// <returns></returns>
         public static IHostBuilder UseLogging(this IHostBuilder builder, Action<HostBuilderContext, LoggerConfiguration> configureLogger, string configurationSectionName = "Serilog")
         {

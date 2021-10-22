@@ -14,7 +14,14 @@ namespace PackSite.Library.Logging.Microsoft
     /// </summary>
     public sealed class MicrosoftBootstrapper : IBootstrapper
     {
-        private const string BootstrapperServiceProviderKey = "PackSite.Library.Logging.Microsoft.MicrosoftBootstrapper.ServiceProvider";
+        private struct Properties
+        {
+            /// <summary>
+            /// A property name that stores Microsoft bootstrapper service provider.
+            /// </summary>
+
+            public const string BootstrapperServiceProvider = "PackSite.Library.Logging.Microsoft.MicrosoftBootstrapper.ServiceProvider";
+        }
 
         /// <summary>
         /// Initializes a new instance of <see cref="MicrosoftBootstrapper"/>.
@@ -73,7 +80,7 @@ namespace PackSite.Library.Logging.Microsoft
                 })
                 .BuildServiceProvider();
 
-            options.Properties[BootstrapperServiceProviderKey] = serviceProvider;
+            options.Properties[Properties.BootstrapperServiceProvider] = serviceProvider;
         }
 
         void IBootstrapper.BeforeHostBuild(IHostBuilder hostBuilder, BootstrapperOptions options, IConfigurationRoot bootstrapperConfigurationRoot)
@@ -83,7 +90,7 @@ namespace PackSite.Library.Logging.Microsoft
 
         void IBootstrapper.AfterHostDisposal(BootstrapperOptions options)
         {
-            if (options.Properties.TryGetValue(BootstrapperServiceProviderKey, out object? value) &&
+            if (options.Properties.TryGetValue(Properties.BootstrapperServiceProvider, out object? value) &&
                 value is IDisposable disposable)
             {
                 disposable.Dispose();
@@ -92,7 +99,7 @@ namespace PackSite.Library.Logging.Microsoft
 
         ILoggerFactory? IBootstrapper.TryGetBootstrapLoggerFactory(BootstrapperOptions options)
         {
-            if (options.Properties.TryGetValue(BootstrapperServiceProviderKey, out object? value) &&
+            if (options.Properties.TryGetValue(Properties.BootstrapperServiceProvider, out object? value) &&
                 value is IServiceProvider serviceProvider)
             {
                 return serviceProvider.GetService<ILoggerFactory>();

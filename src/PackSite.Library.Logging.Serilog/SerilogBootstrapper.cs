@@ -12,16 +12,7 @@ namespace PackSite.Library.Logging.Serilog
     /// </summary>
     public sealed class SerilogBootstrapper : IBootstrapper
     {
-        /// <summary>
-        /// Properties.
-        /// </summary>
-        public struct Properties
-        {
-            /// <summary>
-            /// Name of <see cref="BootstrapperOptions"/> property containing Serilog cofiguration section name.
-            /// </summary>
-            public const string ConfigurationSectionName = "PackSite.Library.Logging.Serilog.SerilogBootstrapper.ConfigurationSection";
-        }
+        //TODO: maybe add support for setting/reading section name from BootstrapperOptions.Properties + extensions to read/write this prop
 
         private readonly string _configurationSectionName = "Serilog";
 
@@ -52,11 +43,6 @@ namespace PackSite.Library.Logging.Serilog
              */
 
             string configurationSectionName = _configurationSectionName;
-
-            if (options.Properties.TryGetValue("ConfigurationSection", out object? obj) && obj is string s)
-            {
-                configurationSectionName = s;
-            }
 
             LoggerConfiguration loggerConfiguration = new();
             loggerConfiguration.ConfigureSerilogCommons(bootstrapperConfigurationRoot, configurationSectionName);

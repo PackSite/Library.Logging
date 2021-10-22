@@ -1,4 +1,4 @@
-﻿namespace SampleApp
+﻿namespace ConsoleAppExample
 {
     using System.Threading.Tasks;
     using Microsoft.Extensions.DependencyInjection;

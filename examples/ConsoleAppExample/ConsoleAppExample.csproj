@@ -5,6 +5,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <GenerateDocumentationFile>false</GenerateDocumentationFile>
     <IsPackable>false</IsPackable>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\PackSite.Library.Logging.Microsoft\PackSite.Library.Logging.Microsoft.csproj" />
-    <ProjectReference Include="..\..\PackSite.Library.Logging.Serilog\PackSite.Library.Logging.Serilog.csproj" />
+    <ProjectReference Include="..\..\src\PackSite.Library.Logging.Microsoft\PackSite.Library.Logging.Microsoft.csproj" />
+    <ProjectReference Include="..\..\src\PackSite.Library.Logging.Serilog\PackSite.Library.Logging.Serilog.csproj" />
   </ItemGroup>
 
 </Project>

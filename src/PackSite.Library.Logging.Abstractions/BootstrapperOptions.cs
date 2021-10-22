@@ -28,7 +28,7 @@
         public string[] Args { get; }
 
         /// <summary>
-        /// Configuration files etc. base director (default: <see cref="Directory.GetCurrentDirectory()"/>).
+        /// Configuration files etc. base directory (default: <see cref="Directory.GetCurrentDirectory()"/>).
         /// </summary>
         public string BaseDirectory { get; }
 

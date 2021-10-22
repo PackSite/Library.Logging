@@ -1,4 +1,4 @@
-﻿namespace SampleApp
+﻿namespace ConsoleAppExample
 {
     using System;
     using System.Collections.Generic;

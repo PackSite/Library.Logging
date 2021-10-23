@@ -33,8 +33,8 @@
                 .ConfigureServices((context, services) =>
                 {
                     services.AddOptions();
-                    services.AddHostedService<SampleAppHostedService2>();
                     services.AddHostedService<SampleAppHostedService1>();
+                    services.AddHostedService<SampleAppHostedService2>();
                 })
                 .UseLogging();
         }
@@ -47,8 +47,8 @@
                 .ConfigureServices((context, services) =>
                 {
                     services.AddOptions();
-                    services.AddHostedService<SampleAppHostedService2>();
                     services.AddHostedService<SampleAppHostedService1>();
+                    services.AddHostedService<SampleAppHostedService2>();
                 })
                 .UseLogging();
         }

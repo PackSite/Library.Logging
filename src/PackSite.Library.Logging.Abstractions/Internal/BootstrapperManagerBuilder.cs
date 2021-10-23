@@ -13,9 +13,7 @@
     internal sealed class BootstrapperManagerBuilder<TBootstrapper> : IBootstrapperManagerBuilder<TBootstrapper>, IConfigureBootstrapperOptions
         where TBootstrapper : class, IBootstrapper
     {
-        private const string LoggerCategoryName = "PackSite.Library.Logging.Boot";
-
-        private readonly TBootstrapper _instance;
+        private readonly TBootstrapper _bootstrapper;
 
         private string[]? _args;
         private string? _baseDirectory;
@@ -35,10 +33,10 @@
         /// <summary>
         /// Initializes a new instance of <see cref="BootstrapperManagerBuilder{TBootstrapper}"/>.
         /// </summary>
-        /// <param name="instance"></param>
-        public BootstrapperManagerBuilder(TBootstrapper instance)
+        /// <param name="bootstrapper"></param>
+        public BootstrapperManagerBuilder(TBootstrapper bootstrapper)
         {
-            _instance = instance ?? throw new ArgumentNullException(nameof(instance), "Non-nullable argument cannot be null.");
+            _bootstrapper = bootstrapper ?? throw new ArgumentNullException(nameof(bootstrapper), "Non-nullable argument cannot be null.");
         }
 
         public IBootstrapperManagerBuilder<TBootstrapper> ConfigureOptions(Action<IConfigureBootstrapperOptions> options)
@@ -119,23 +117,23 @@
             _ = _createHostBuilderDelegate ?? throw new InvalidOperationException($"Cannot start host when {nameof(CreateHostBuilder)} was not called.");
 
             BootstrapperOptions options = new(_args,
-                                             _baseDirectory,
-                                             _environmentName,
-                                             _additionalFiles.ToArray(),
-                                             new Dictionary<object, object>(Properties));
+                                              _baseDirectory,
+                                              _environmentName,
+                                              _additionalFiles.ToArray(),
+                                              new Dictionary<object, object>(Properties));
 
             IConfigurationRoot configurationRoot = BootstrapperConfigurationHelper.GetConfigurationRoot(options);
 
-            _instance.BeforeHostCreation(options, configurationRoot);
+            _bootstrapper.BeforeHostCreation(options, configurationRoot);
 
-            ILogger? logger = null;
             IHost? host = null;
 
             try
             {
                 // Build host
-                logger = _instance.TryGetBootstrapLoggerFactory(options)?.CreateLogger(LoggerCategoryName);
-                logger?.LogInformation("Building {App} host (env: {Env})...", options.ApplicationName, options.EnvironmentName);
+                _bootstrapper
+                    .GetBootLoggerOrDefault(options)
+                    ?.LogInformation("Building {App} host (env: {Env})...", options.ApplicationName, options.EnvironmentName);
 
                 IHostBuilder hostBuilder = _createHostBuilderDelegate(options);
 
@@ -144,21 +142,24 @@
                     action(hostBuilder);
                 }
 
-                _instance.BeforeHostBuild(hostBuilder, options, configurationRoot);
+                _bootstrapper.BeforeHostBuild(hostBuilder, options, configurationRoot);
                 host = hostBuilder.Build();
 
-                logger = _instance.TryGetBootstrapLoggerFactory(options)?.CreateLogger(LoggerCategoryName);
-                logger?.LogDebug("Host built successfully");
+                _bootstrapper
+                    .GetBootLoggerOrDefault(options)
+                    ?.LogInformation("Host built successfully");
             }
             catch (Exception ex)
             {
                 Trace.WriteLine("Host builder terminated unexpectedly.");
                 Trace.WriteLine(ex);
 
-                logger?.LogCritical(ex, "Host builder terminated unexpectedly");
+                _bootstrapper
+                    .GetBootLoggerOrDefault(options)
+                    ?.LogCritical(ex, "Host builder terminated unexpectedly");
             }
 
-            return new BootstrapperManager<TBootstrapper>(_instance, options, host);
+            return new BootstrapperManager<TBootstrapper>(_bootstrapper, options, host);
         }
     }
 }

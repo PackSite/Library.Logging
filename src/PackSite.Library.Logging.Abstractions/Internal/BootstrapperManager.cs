@@ -13,9 +13,7 @@
     internal sealed class BootstrapperManager<TBootstrapper> : IBootstrapperManager<TBootstrapper>
         where TBootstrapper : class, IBootstrapper
     {
-        private const string LoggerCategoryName = "PackSite.Library.Logging.Boot";
-
-        private readonly TBootstrapper _instance;
+        private readonly TBootstrapper _bootstrapper;
 
         /// <inheritdoc/>
         public BootstrapperOptions Options { get; }
@@ -29,12 +27,12 @@
         /// <summary>
         /// Initializes a new instance of <see cref="BootstrapperManager{TBootstrapper}"/>.
         /// </summary>
-        /// <param name="instance"></param>
+        /// <param name="bootstrapper"></param>
         /// <param name="options"></param>
         /// <param name="host"></param>
-        public BootstrapperManager(TBootstrapper instance, BootstrapperOptions options, IHost? host)
+        public BootstrapperManager(TBootstrapper bootstrapper, BootstrapperOptions options, IHost? host)
         {
-            _instance = instance ?? throw new ArgumentNullException(nameof(instance), "Non-nullable argument cannot be null.");
+            _bootstrapper = bootstrapper ?? throw new ArgumentNullException(nameof(bootstrapper), "Non-nullable argument cannot be null.");
             Options = options ?? throw new ArgumentNullException(nameof(options), "Non-nullable argument cannot be null.");
             Host = host;
         }
@@ -47,13 +45,11 @@
                 return;
             }
 
-            ILogger? logger = null;
-
             try
             {
-                logger = _instance.TryGetBootstrapLoggerFactory(Options)?.CreateLogger(LoggerCategoryName);
-
-                logger?.LogInformation("Starting application {App} {Ver} (env: {Env})...", Options.ApplicationName, Options.ApplicationVersion, Options.EnvironmentName);
+                _bootstrapper
+                    .GetBootLoggerOrDefault(Options)
+                    ?.LogInformation("Starting application {App} {Ver} (env: {Env})...", Options.ApplicationName, Options.ApplicationVersion, Options.EnvironmentName);
 
                 IsRunning = true;
                 await Host.RunAsync(token).ConfigureAwait(false);
@@ -63,15 +59,19 @@
                 Trace.WriteLine("Host terminated unexpectedly.");
                 Trace.WriteLine(ex);
 
-                logger?.LogCritical(ex, "Host terminated unexpectedly");
+                _bootstrapper
+                    .GetBootLoggerOrDefault(Options)
+                    ?.LogCritical(ex, "Host terminated unexpectedly");
             }
             finally
             {
-                logger?.LogWarning("Application {App} (env: {Env}) closed.", Options.ApplicationVersion, Options.EnvironmentName);
+                _bootstrapper
+                    .GetBootLoggerOrDefault(Options)
+                    ?.LogWarning("Application {App} (env: {Env}) closed.", Options.ApplicationVersion, Options.EnvironmentName);
 
                 // No need to dispose host because RunAsync does that
                 IsRunning = false;
-                _instance.AfterHostDisposal(Options);
+                _bootstrapper.AfterHostDisposal(Options);
             }
         }
 
@@ -83,11 +83,9 @@
                 return;
             }
 
-            ILogger? logger = null;
-
             try
             {
-                logger = _instance.TryGetBootstrapLoggerFactory(Options)?.CreateLogger(LoggerCategoryName);
+                ILogger? logger = _bootstrapper.GetBootLoggerOrDefault(Options);
                 logger?.LogInformation("Starting application {App} {Ver} (env: {Env})...", Options.ApplicationName, Options.ApplicationVersion, Options.EnvironmentName);
 
                 IsRunning = true;
@@ -100,8 +98,11 @@
                 Trace.WriteLine("Host terminated unexpectedly during startup.");
                 Trace.WriteLine(ex);
 
-                logger?.LogCritical(ex, "Host terminated unexpectedly during startup");
-                await StopAsync();
+                _bootstrapper
+                    .GetBootLoggerOrDefault(Options)
+                    ?.LogCritical(ex, "Host terminated unexpectedly during startup");
+
+                await StopAsync(token).ConfigureAwait(false);
             }
         }
 
@@ -113,12 +114,11 @@
                 return;
             }
 
-            ILogger? logger = null;
-
             try
             {
-                logger = _instance.TryGetBootstrapLoggerFactory(Options)?.CreateLogger(LoggerCategoryName);
-                logger?.LogInformation("Stopping application {App} {Ver} (env: {Env})...", Options.ApplicationName, Options.ApplicationVersion, Options.EnvironmentName);
+                _bootstrapper
+                    .GetBootLoggerOrDefault(Options)
+                    ?.LogInformation("Stopping application {App} {Ver} (env: {Env})...", Options.ApplicationName, Options.ApplicationVersion, Options.EnvironmentName);
 
                 await Host.StopAsync(token);
             }
@@ -127,11 +127,15 @@
                 Trace.WriteLine("Host terminated unexpectedly.");
                 Trace.WriteLine(ex);
 
-                logger?.LogCritical(ex, "Host terminated unexpectedly");
+                _bootstrapper
+                    .GetBootLoggerOrDefault(Options)?
+                    .LogCritical(ex, "Host terminated unexpectedly");
             }
             finally
             {
-                logger?.LogWarning("Application {App} (env: {Env}) closed.", Options.ApplicationVersion, Options.EnvironmentName);
+                _bootstrapper
+                    .GetBootLoggerOrDefault(Options)
+                    ?.LogWarning("Application {App} (env: {Env}) stopped.", Options.ApplicationVersion, Options.EnvironmentName);
 
                 if (Host is IAsyncDisposable asyncDisposable)
                 {
@@ -143,7 +147,7 @@
                 }
 
                 IsRunning = false;
-                _instance.AfterHostDisposal(Options);
+                _bootstrapper.AfterHostDisposal(Options);
             }
         }
 
@@ -162,8 +166,6 @@
                 return;
             }
 
-            ILogger? logger = null;
-
             try
             {
                 await Host.WaitForShutdownAsync(token).ConfigureAwait(false);
@@ -173,13 +175,15 @@
                 Trace.WriteLine("Host terminated unexpectedly.");
                 Trace.WriteLine(ex);
 
-                logger = _instance.TryGetBootstrapLoggerFactory(Options)?.CreateLogger(LoggerCategoryName);
-                logger?.LogCritical(ex, "Host terminated unexpectedly");
+                _bootstrapper
+                    .GetBootLoggerOrDefault(Options)
+                    ?.LogCritical(ex, "Host terminated unexpectedly");
             }
             finally
             {
-                logger = _instance.TryGetBootstrapLoggerFactory(Options)?.CreateLogger(LoggerCategoryName);
-                logger?.LogWarning("Application {App} (env: {Env}) closed.", Options.ApplicationVersion, Options.EnvironmentName);
+                _bootstrapper
+                    .GetBootLoggerOrDefault(Options)
+                    ?.LogWarning("Application {App} (env: {Env}) stopped.", Options.ApplicationVersion, Options.EnvironmentName);
 
                 if (Host is IAsyncDisposable asyncDisposable)
                 {
@@ -191,7 +195,7 @@
                 }
 
                 IsRunning = false;
-                _instance.AfterHostDisposal(Options);
+                _bootstrapper.AfterHostDisposal(Options);
             }
         }
     }

@@ -3,7 +3,7 @@
   "profiles": {
     "WebAppExample - Working": {
       "commandName": "Project",
-      "commandLineArgs": "throw",
+      "commandLineArgs": "",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
@@ -14,7 +14,7 @@
     },
     "WebAppExample - Throw At Build": {
       "commandName": "Project",
-      "commandLineArgs": "args",
+      "commandLineArgs": "--throw",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {

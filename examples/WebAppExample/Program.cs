@@ -2,6 +2,7 @@ namespace WebAppExample
 {
     using System;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;
@@ -47,9 +48,9 @@ namespace WebAppExample
                 .UseEnvironment(bootstraperOptions.EnvironmentName)
                 .ConfigureAppConfiguration((context, builder) =>
                 {
-                    if (bootstraperOptions.Args.Length > 0)
+                    if (bootstraperOptions.Args.Contains("--throw"))
                     {
-                        throw new InvalidOperationException($"Demo - \"{string.Join(' ', bootstraperOptions.Args)}\"");
+                        throw new InvalidOperationException("Host build exception demo");
                     }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>

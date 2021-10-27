@@ -33,7 +33,7 @@
 
         /// <summary>
         /// Attempts to starts the host inside try-catch-finally with logging.
-        /// Returns a Task that only completes when the token is triggered or shutdown is triggered.
+        /// Returns a Task that will be completed when the <see cref="IHost"/> starts.
         /// </summary>
         Task StartAsync(CancellationToken token = default);
 
@@ -45,7 +45,7 @@
 
         /// <summary>
         /// Attempts to stops the host inside try-catch-finally with logging.
-        /// Returns a Task that only completes when the token is triggered or shutdown is triggered.
+        /// Returns a Task that will be completed when the <see cref="IHost"/> stops.
         /// </summary>
         Task StopAsync(CancellationToken token = default);
     }

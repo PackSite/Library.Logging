@@ -88,8 +88,8 @@
                 ILogger? logger = _bootstrapper.GetBootLoggerOrDefault(Options);
                 logger?.LogInformation("Starting application {App} {Ver} (env: {Env})...", Options.ApplicationName, Options.ApplicationVersion, Options.EnvironmentName);
 
-                IsRunning = true;
                 await Host.StartAsync(token).ConfigureAwait(false);
+                IsRunning = true;
 
                 logger?.LogWarning("Application {App} (env: {Env}) started.", Options.ApplicationVersion, Options.EnvironmentName);
             }

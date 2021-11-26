@@ -1,38 +1,49 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net5.0</TargetFrameworks>
-    <Authors>$(Company)</Authors>
-    <Description>Logging and bootstrapping helper library</Description>
-    <PackageTags>PackSite library logging bootstrap bootstrapping</PackageTags>
-    <PackageProjectUrl>https://github.com/PackSite/Library.Logging</PackageProjectUrl>
-    <PackageReleaseNotes>https://github.com/PackSite/Library.Logging/blob/main/CHANGELOG.md</PackageReleaseNotes>
-    <PackageIcon>icon-64px.png</PackageIcon>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <Configurations>Debug;Release</Configurations>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFrameworks>net6.0;net5.0</TargetFrameworks>
+		<Authors>$(Company)</Authors>
+		<Description>Logging and bootstrapping helper library</Description>
+		<PackageTags>PackSite library logging bootstrap bootstrapping</PackageTags>
+		<PackageProjectUrl>https://github.com/PackSite/Library.Logging</PackageProjectUrl>
+		<PackageReleaseNotes>https://github.com/PackSite/Library.Logging/blob/main/CHANGELOG.md</PackageReleaseNotes>
+		<PackageIcon>icon-64px.png</PackageIcon>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
 
-  <PropertyGroup>
-    <RootNamespace>PackSite.Library.Logging</RootNamespace>
-  </PropertyGroup>
+	<PropertyGroup>
+		<RootNamespace>PackSite.Library.Logging</RootNamespace>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Include="..\..\img\icon-64px.png" Pack="true" PackagePath="" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\img\icon-64px.png" Pack="true" PackagePath="" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="[5.0.0,]" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="[5.0.0,]" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="[5.0.0,]" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="[5.0.0,]" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="[5.0.0,]" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net5.0'">
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net6.0'">
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
+	</ItemGroup>
 
 </Project>

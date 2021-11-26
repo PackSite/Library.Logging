@@ -11,18 +11,19 @@
     {
         public static async Task Main()
         {
+            System.Console.WriteLine("===== DEMO #1 =====");
             await BootstrapperManagerBuilder.Create<SerilogBootstrapper>()
                 .CreateHostBuilder(CreateHostBuilderSerilog)
                 .Build()
                 .RunAsync();
 
+            System.Console.WriteLine("===== DEMO #2 =====");
             var bootstrapperManagerMicrosoft = BootstrapperManagerBuilder.Create<MicrosoftBootstrapper>()
                 .CreateHostBuilder(CreateHostBuilderMicrosoft)
                 .Build();
 
             await bootstrapperManagerMicrosoft.StartAsync();
             await bootstrapperManagerMicrosoft.WaitForShutdownAsync();
-            //await bootstrapperManagerMicrosoft.StopAsync();
         }
 
         private static IHostBuilder CreateHostBuilderSerilog(BootstrapperOptions bootstrapperOptions)

@@ -5,7 +5,7 @@
     /// <summary>
     /// <see cref="BootstrapperOptions"/> extensions.
     /// </summary>
-    public static class BootstrapperOptionsExtensions
+    internal static class BootstrapperOptionsExtensions
     {
         /// <summary>
         /// Sets a service provider to a property

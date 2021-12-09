@@ -7,6 +7,7 @@ namespace WebAppExample.IntegrationTests.Environments
     using PackSite.Library.Logging;
     using WebAppExample;
     using WebAppExample.IntegrationTests.Environments.Base;
+    using WebAppExample.IntegrationTests.Mocks.Services;
     using WebAppExample.Services;
 
     public sealed class WebAppExampleEnvironment : AppEnvironment

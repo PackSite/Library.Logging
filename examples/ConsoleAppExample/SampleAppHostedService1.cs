@@ -24,7 +24,7 @@
         /// <inheritdoc/>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1000, stoppingToken);
 
             _logger.LogInformation($"Running SampleApp");
 

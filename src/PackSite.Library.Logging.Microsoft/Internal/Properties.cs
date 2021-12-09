@@ -1,4 +1,4 @@
-﻿namespace PackSite.Library.Logging.Microsoft
+﻿namespace PackSite.Library.Logging.Microsoft.Internal
 {
     /// <summary>
     /// Internal <see cref="BootstrapperOptions"/> properties.

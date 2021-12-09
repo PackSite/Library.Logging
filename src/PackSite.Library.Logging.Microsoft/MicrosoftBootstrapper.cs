@@ -60,6 +60,7 @@ namespace PackSite.Library.Logging.Microsoft
                     {
                         logging.AddConsole();
                     }
+
                     logging.AddDebug();
                     logging.AddEventSourceLogger();
 

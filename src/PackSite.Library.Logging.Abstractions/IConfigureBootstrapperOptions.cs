@@ -50,7 +50,7 @@
         IConfigureBootstrapperOptions UseEnvironmentName(string environmentName);
 
         /// <summary>
-        /// Configures additional bootstraper configuration files, e.g. appsettings-logging.Development.json
+        /// Configures additional bootstraper configuration files, e.g. appsettings-logging.json
         /// used to retrive <see cref="IConfigurationRoot"/> instance (default: empty array).
         /// </summary>
         /// <param name="additionalFiles"></param>

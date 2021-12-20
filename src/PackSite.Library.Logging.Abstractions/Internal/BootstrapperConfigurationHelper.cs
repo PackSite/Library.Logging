@@ -2,6 +2,7 @@
 {
     using System;
     using System.Diagnostics;
+    using System.Linq;
     using Microsoft.Extensions.Configuration;
 
     /// <summary>
@@ -33,11 +34,18 @@
                     .AddJsonFile($"appsettings.json", optional: true, reloadOnChange: false)
                     .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: false);
 
-                foreach (string e in additionalFiles)
+                foreach (string file in additionalFiles)
                 {
+                    string f = file.EndsWith(".json") ? file[..^5] : file;
+
+                    if (f.Any(x => x == '.'))
+                    {
+                        throw new ArgumentException($"Filename ({file}) must contain only one dot ('.').", nameof(file));
+                    }
+
                     preSettingsBuilder
-                        .AddJsonFile(string.Concat(e, ".json"), optional: true, reloadOnChange: false)
-                        .AddJsonFile(string.Concat(e, ".", environmentName, ".json"), optional: true, reloadOnChange: false);
+                        .AddJsonFile(string.Concat(f, ".json"), optional: true, reloadOnChange: false)
+                        .AddJsonFile(string.Concat(f, ".", environmentName, ".json"), optional: true, reloadOnChange: false);
                 }
 
                 preSettingsBuilder.AddEnvironmentVariables();

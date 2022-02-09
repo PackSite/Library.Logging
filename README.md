@@ -13,9 +13,9 @@
 [![Downloads](https://img.shields.io/nuget/dt/PackSite.Library.Logging.Serilog.svg?label=)](https://nuget.org/packages/PackSite.Library.Logging.Serilog)
 
 
-**PackSite.Library.Logging** is a set of **.NET 5** and **.NET 6** compatible libraris that speed up logging setup and Generic Host bootstrapping with Serilog and `Microsoft.Extensions.Logging`.
+**PackSite.Library.Logging** is a set of **.NET 5** and **.NET 6** compatible libraries that speed up logging setup and Generic Host bootstrapping with Serilog and `Microsoft.Extensions.Logging`.
 
-The libraries simplifies and provides a generic solution to the problem described in an article [Bootstrap logging with Serilog + ASP.NET Core](https://nblumhardt.com/2020/10/bootstrap-logger/).
+The libraries simplify and provide a generic solution to the problem described in an article [Bootstrap logging with Serilog + ASP.NET Core](https://nblumhardt.com/2020/10/bootstrap-logger/).
 
  > (...)
  > Errors during application start-up are some of the nastiest problems to hit in production. 

@@ -40,7 +40,7 @@
 
                     if (f.Any(x => x == '.'))
                     {
-                        throw new ArgumentException($"Filename ({file}) must contain only one dot ('.').", nameof(file));
+                        throw new ArgumentException($"Filename ({file}) must contain only one dot ('.').", nameof(additionalFiles));
                     }
 
                     preSettingsBuilder

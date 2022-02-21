@@ -1,10 +1,10 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net6.0;net5.0</TargetFrameworks>
 		<Authors>$(Company)</Authors>
-		<Description>Serilog logging and bootstrapping</Description>
-		<PackageTags>PackSite library logging Serilog bootstrap bootstrapping</PackageTags>
+		<Description>Serilog based logging and bootstrapping</Description>
+		<PackageTags>PackSite library logging Serilog Microsoft.Extensions.Logging MEL bootstrap bootstrapping</PackageTags>
 		<PackageProjectUrl>https://github.com/PackSite/Library.Logging</PackageProjectUrl>
 		<PackageReleaseNotes>https://github.com/PackSite/Library.Logging/blob/main/CHANGELOG.md</PackageReleaseNotes>
 		<PackageIcon>icon-64px.png</PackageIcon>

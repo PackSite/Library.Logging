@@ -78,7 +78,10 @@ public class Program
             {
                 webBuilder.UseStartup<Startup>();
             })
-            .UseLogging();
+            .UseSerilog((context, services, loggerConfiguration) =>
+            {
+                loggerConfiguration.ConfigureWithFailSafeDefaults(context.Configuration);
+            }, preserveStaticLogger: false, writeToProviders: false);
     }
 }
 ```

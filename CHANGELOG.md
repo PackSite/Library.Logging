@@ -2,6 +2,7 @@
 
 - Add new public extension `SerilogLoggerConfigurationExtensions.ConfigureWithFailSafeDefaults(...)`.
 - Depreciated `SerilogConfigurationExtensions.UseLogging`.
+- Updated dependencies.
 
 ### v1.0.0 (09-Dec-2021)
 

@@ -1,7 +1,6 @@
 ﻿namespace ConsoleAppExample
 {
     using System.Threading.Tasks;
-    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using PackSite.Library.Logging;
@@ -42,7 +41,7 @@
                 .UseSerilog((context, services, loggerConfiguration) =>
                 {
                     loggerConfiguration.ConfigureWithFailSafeDefaults(context.Configuration);
-                }, false, false);
+                }, preserveStaticLogger: false, writeToProviders: false);
         }
 
         private static IHostBuilder CreateHostBuilderMicrosoft(BootstrapperOptions bootstrapperOptions)

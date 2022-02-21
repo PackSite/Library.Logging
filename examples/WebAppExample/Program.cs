@@ -8,6 +8,7 @@ namespace WebAppExample
     using Microsoft.Extensions.Hosting;
     using PackSite.Library.Logging;
     using PackSite.Library.Logging.Serilog;
+    using Serilog;
 
     /// <summary>
     /// WebAppExample application entry point.
@@ -57,7 +58,10 @@ namespace WebAppExample
                 {
                     webBuilder.UseStartup<Startup>();
                 })
-                .UseLogging();
+                .UseSerilog((context, services, loggerConfiguration) =>
+                {
+                    loggerConfiguration.ConfigureWithFailSafeDefaults(context.Configuration);
+                }, false, false);
         }
     }
 }

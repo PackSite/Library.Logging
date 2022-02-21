@@ -5,7 +5,6 @@ namespace PackSite.Library.Logging.Serilog
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Hosting;
     using PackSite.Library.Logging;
-    using PackSite.Library.Logging.Serilog.Internal;
 
     /// <summary>
     /// Application bootstraping using Serilog-based logging in case of fatal error.
@@ -45,7 +44,7 @@ namespace PackSite.Library.Logging.Serilog
             string configurationSectionName = _configurationSectionName;
 
             LoggerConfiguration loggerConfiguration = new();
-            loggerConfiguration.ConfigureSerilogCommons(bootstrapperConfigurationRoot, configurationSectionName);
+            loggerConfiguration.ConfigureWithFailSafeDefaults(bootstrapperConfigurationRoot, configurationSectionName);
             loggerConfiguration.MinimumLevel.Verbose(); // Log everything before logger reconfiguration by Host (unless namespace log level is overriden in appsettings.json etc.).
 
             ReloadableLogger logger = loggerConfiguration.CreateBootstrapLogger();

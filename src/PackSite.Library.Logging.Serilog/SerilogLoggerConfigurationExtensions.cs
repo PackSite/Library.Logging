@@ -1,4 +1,4 @@
-﻿namespace PackSite.Library.Logging.Serilog.Internal
+﻿namespace PackSite.Library.Logging.Serilog
 {
     using System;
     using System.Diagnostics;
@@ -6,12 +6,11 @@
     using global::Serilog;
     using global::Serilog.Events;
     using Microsoft.Extensions.Configuration;
-    using PackSite.Library.Logging.Serilog;
 
     /// <summary>
-    /// Serilog configuration extensions.
+    /// <see cref="LoggerConfiguration"/> extensions.
     /// </summary>
-    internal static class LoggerConfigurationExtensions
+    public static class SerilogLoggerConfigurationExtensions
     {
         /// <summary>
         /// Configures Serilog.
@@ -19,7 +18,7 @@
         /// <param name="loggerConfiguration"></param>
         /// <param name="configuration"></param>
         /// <param name="configurationSectionName"></param>
-        public static void ConfigureSerilogCommons(this LoggerConfiguration loggerConfiguration, IConfiguration configuration, string configurationSectionName = "Serilog")
+        public static void ConfigureWithFailSafeDefaults(this LoggerConfiguration loggerConfiguration, IConfiguration configuration, string configurationSectionName = "Serilog")
         {
             configurationSectionName ??= "Serilog";
 

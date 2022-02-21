@@ -1,11 +1,13 @@
 ﻿namespace ConsoleAppExample
 {
     using System.Threading.Tasks;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using PackSite.Library.Logging;
     using PackSite.Library.Logging.Microsoft;
     using PackSite.Library.Logging.Serilog;
+    using Serilog;
 
     public class Program
     {
@@ -37,7 +39,10 @@
                     services.AddHostedService<SampleAppHostedService1>();
                     services.AddHostedService<SampleAppHostedService2>();
                 })
-                .UseLogging();
+                .UseSerilog((context, services, loggerConfiguration) =>
+                {
+                    loggerConfiguration.ConfigureWithFailSafeDefaults(context.Configuration);
+                }, false, false);
         }
 
         private static IHostBuilder CreateHostBuilderMicrosoft(BootstrapperOptions bootstrapperOptions)
@@ -50,8 +55,7 @@
                     services.AddOptions();
                     services.AddHostedService<SampleAppHostedService1>();
                     services.AddHostedService<SampleAppHostedService2>();
-                })
-                .UseLogging();
+                });
         }
     }
 }

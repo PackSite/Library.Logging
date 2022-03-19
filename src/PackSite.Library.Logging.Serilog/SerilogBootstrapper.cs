@@ -7,7 +7,7 @@ namespace PackSite.Library.Logging.Serilog
     using PackSite.Library.Logging;
 
     /// <summary>
-    /// Application bootstraping using Serilog-based logging in case of fatal error.
+    /// Application bootstrapping using Serilog-based logging in case of fatal error.
     /// </summary>
     public sealed class SerilogBootstrapper : IBootstrapper
     {

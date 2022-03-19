@@ -17,7 +17,7 @@
         /// optional "{additionalFiles}.json" and "{additionalFiles}.{environmentName}.json",
         /// and environment variables.
         ///
-        /// If an error occured during configuration building, an empty configuration will be returned.
+        /// If an error occurred during configuration building, an empty configuration will be returned.
         /// </summary>
         /// <returns></returns>
         public static IConfigurationRoot GetConfigurationRoot(BootstrapperOptions options)

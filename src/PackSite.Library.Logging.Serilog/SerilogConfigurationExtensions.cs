@@ -11,7 +11,7 @@
     public static class SerilogConfigurationExtensions
     {
         /// <summary>
-        /// Adds Serilog logging to appliation with logger options from app configuration.
+        /// Adds Serilog logging to application with logger options from app configuration.
         /// Additionally, the following enrichers are always set:
         /// "FromLogContext".
         ///
@@ -44,7 +44,7 @@
         }
 
         /// <summary>
-        /// Adds Serilog logging to appliation with logger options from app configuration.
+        /// Adds Serilog logging to application with logger options from app configuration.
         /// Additionally, the following enrichers are always set:
         /// "FromLogContext".
         ///
@@ -82,7 +82,7 @@
         }
 
         /// <summary>
-        /// Adds Serilog logging to appliation with logger options from app configuration.
+        /// Adds Serilog logging to application with logger options from app configuration.
         /// Additionally, the following enrichers are always set:
         /// "FromLogContext".
         ///

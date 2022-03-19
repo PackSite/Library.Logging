@@ -11,7 +11,7 @@ namespace PackSite.Library.Logging.Microsoft
     using PackSite.Library.Logging.Microsoft.Internal;
 
     /// <summary>
-    /// Application bootstraping with Microsoft.Extensions.Logging-based logging in case of fatal error.
+    /// Application bootstrapping with Microsoft.Extensions.Logging-based logging in case of fatal error.
     /// </summary>
     public sealed class MicrosoftBootstrapper : IBootstrapper
     {

@@ -37,7 +37,7 @@ namespace WebAppExample
                 .Build();
         }
 
-        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "For compatibility - esed for generating EF Core migrations etc.")]
+        [SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "For compatibility - used for generating EF Core migrations etc.")]
         private static IHostBuilder CreateHostBuilder(string[] args)
         {
             return CreateHostBuilderWithBootstraper(new BootstrapperOptions(args));

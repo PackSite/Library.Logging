@@ -39,7 +39,7 @@
 
         /// <summary>
         /// Additional bootstrapper configuration files, e.g. appsettings-logging.Development.json
-        /// used to retrive <see cref="IConfigurationRoot"/> instance (default: empty array).
+        /// used to retrieve <see cref="IConfigurationRoot"/> instance (default: empty array).
         /// </summary>
         public string[] AdditionalBootstrapperConfigurationFiles { get; }
 

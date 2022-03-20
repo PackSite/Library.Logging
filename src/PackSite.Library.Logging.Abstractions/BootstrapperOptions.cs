@@ -38,7 +38,7 @@
         public string EnvironmentName { get; }
 
         /// <summary>
-        /// Additional bootstrapper configuration files, e.g. appsettings-logging.Development.json
+        /// Additional bootstrapper configuration files, e.g. appsettings-logging (environment specific files are added automatically)
         /// used to retrieve <see cref="IConfigurationRoot"/> instance (default: empty array).
         /// </summary>
         public string[] AdditionalBootstrapperConfigurationFiles { get; }

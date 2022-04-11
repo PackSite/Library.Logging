@@ -19,6 +19,7 @@
         private string? _baseDirectory;
         private string? _environmentName;
         private readonly List<string> _additionalFiles = new();
+        private readonly List<Action<BootstrapperOptions, IConfigurationBuilder>> _configureBootstrapperConfiguration = new();
         private readonly List<Action<IHostBuilder>> _preBuild = new();
         private Func<BootstrapperOptions, IHostBuilder>? _createHostBuilderDelegate;
 
@@ -101,6 +102,13 @@
             return this;
         }
 
+        IConfigureBootstrapperOptions IConfigureBootstrapperOptions.ConfigureBootstrapperConfiguration(Action<BootstrapperOptions, IConfigurationBuilder> configure)
+        {
+            _configureBootstrapperConfiguration.Add(configure);
+
+            return this;
+        }
+
         IConfigureBootstrapperOptions IConfigureBootstrapperOptions.UsePreBuild(Action<IHostBuilder> preBuild)
         {
             _ = preBuild ?? throw new ArgumentNullException(nameof(preBuild));
@@ -120,6 +128,7 @@
                                               _baseDirectory,
                                               _environmentName,
                                               _additionalFiles.ToArray(),
+                                              _configureBootstrapperConfiguration,
                                               new Dictionary<object, object>(Properties));
 
             IConfigurationRoot configurationRoot = BootstrapperConfigurationHelper.GetConfigurationRoot(options);

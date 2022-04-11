@@ -22,33 +22,35 @@
         /// <returns></returns>
         public static IConfigurationRoot GetConfigurationRoot(BootstrapperOptions options)
         {
-            return GetConfigurationRoot(options.EnvironmentName, options.BaseDirectory, options.AdditionalBootstrapperConfigurationFiles);
-        }
+            string environmentName = options.EnvironmentName;
 
-        private static IConfigurationRoot GetConfigurationRoot(string environmentName, string baseFolderPath, string[] additionalFiles)
-        {
             try
             {
                 IConfigurationBuilder preSettingsBuilder = new ConfigurationBuilder()
-                    .SetBasePath(baseFolderPath)
+                    .SetBasePath(options.BaseDirectory)
                     .AddJsonFile($"appsettings.json", optional: true, reloadOnChange: false)
                     .AddJsonFile($"appsettings.{environmentName}.json", optional: true, reloadOnChange: false);
 
-                foreach (string file in additionalFiles)
+#pragma warning disable CS0618 // Type or member is obsolete
+                foreach (string file in options.AdditionalBootstrapperConfigurationFiles)
                 {
                     string f = file.EndsWith(".json") ? file[..^5] : file;
 
                     if (f.Any(x => x == '.'))
                     {
-                        throw new ArgumentException($"Filename ({file}) must contain only one dot ('.').", nameof(additionalFiles));
+                        throw new ApplicationException($"Filename ({file}) must contain only one dot ('.').");
                     }
 
                     preSettingsBuilder
                         .AddJsonFile(string.Concat(f, ".json"), optional: true, reloadOnChange: false)
                         .AddJsonFile(string.Concat(f, ".", environmentName, ".json"), optional: true, reloadOnChange: false);
                 }
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 preSettingsBuilder.AddEnvironmentVariables();
+
+                options.Configure(preSettingsBuilder);
+
                 return preSettingsBuilder.Build();
             }
             catch (Exception ex)

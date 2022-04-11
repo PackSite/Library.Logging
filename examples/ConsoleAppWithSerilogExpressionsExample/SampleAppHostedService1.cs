@@ -1,4 +1,4 @@
-﻿namespace ConsoleAppExample
+﻿namespace ConsoleAppWithSerilogExpressionsExample
 {
     using System;
     using System.Collections.Generic;
@@ -25,6 +25,8 @@
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             await Task.Delay(1000, stoppingToken);
+
+            using var scope = _logger.BeginScope("state");
 
             _logger.LogInformation($"Running SampleApp");
 

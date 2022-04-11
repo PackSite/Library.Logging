@@ -55,7 +55,15 @@
         /// </summary>
         /// <param name="additionalFiles"></param>
         /// <returns></returns>
+        [Obsolete("This method will be removed in PackSite.Library.Logging 2.0.0. Use ConfigureBootstrapperConfiguration(Action<IConfigurationBuilder> configure) instead.")]
         IConfigureBootstrapperOptions UseAdditionalBootstrapperConfigurationFiles(params string[] additionalFiles);
+
+        /// <summary>
+        /// Configures bootstrapper configuration.
+        /// </summary>
+        /// <param name="configure"></param>
+        /// <returns></returns>
+        IConfigureBootstrapperOptions ConfigureBootstrapperConfiguration(Action<BootstrapperOptions, IConfigurationBuilder> configure);
 
         /// <summary>
         /// Optional configuration action that can be executed just before building host from e.g. tests context (default: null).

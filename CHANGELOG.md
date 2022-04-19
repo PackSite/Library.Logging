@@ -1,3 +1,7 @@
+### v1.3.0 (xx-xxx-2022)
+
+- Updated dependencies.
+
 ### v1.2.0 (11-Apr-2022)
 
 - Add `IConfigureBootstrapperOptions.ConfigureBootstrapperConfiguration(...)`.

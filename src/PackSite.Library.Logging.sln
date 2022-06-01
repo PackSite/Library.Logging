@@ -44,7 +44,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppExample", "..\example
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAppExample.IntegrationTests", "..\examples\WebAppExample.IntegrationTests\WebAppExample.IntegrationTests.csproj", "{F0C34C74-7DD3-44B7-B22D-4FE8E95954B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleAppWithSerilogExpressionsExample", "..\examples\ConsoleAppWithSerilogExpressionsExample\ConsoleAppWithSerilogExpressionsExample.csproj", "{D5A69FFF-E7AF-4CB4-9892-2D17B6240387}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleAppWithSerilogExpressionsExample", "..\examples\ConsoleAppWithSerilogExpressionsExample\ConsoleAppWithSerilogExpressionsExample.csproj", "{D5A69FFF-E7AF-4CB4-9892-2D17B6240387}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
